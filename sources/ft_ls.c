@@ -94,18 +94,16 @@ int		main(int ac, char **av)
 	char *options;
 	t_lst_input *lst_input;
 	t_lst_input *tmp;
+	//int i = 0;
 	//t_lst_file *lst_file;
 
 	options = NULL;
-	all_options = ft_strdup("LRr");
+	all_options = ft_strdup("Ralrt1");
 	lst_input = NULL;
 	if (!(lst_input = check_input(ac, av, all_options, &options)))
 		return (1);
-	printf("options selectionner:%s\n", options);
-	//FAIRE STAT POUR ANALYSE FICHIER
-	
-	print_lst_input(lst_input);
-		printf("____________________________________\n");
+	//printf("options selectionner:%s\n", options);
+	//print_lst_input(lst_input);
 	tmp = lst_input;
 	while (tmp)
 	{
@@ -117,23 +115,28 @@ int		main(int ac, char **av)
 			if (!browse_dir(tmp->name, &tmp->tfile))
 				return (1);
 		}
-		//else
-		//	if (!file_stat(tmp->name, &tmp->tfile))
-		//		return (1);
-		set_padding(&tmp->tfile);
-		print_lst_file(tmp->tfile);
 		tmp = tmp->next;
 	}
-		printf("____________________________________\n");
-	//if (!browse_dir(lst_input->name, &lst_input))
-	//	return (1);
-	//set_padding(&lst_input);
-	print_lst_input(lst_input);
-
-
+	tmp = lst_input;
+	set_padding(&tmp->tfile);
+	lst_sort(&tmp->tfile);
+	print_lst_file(tmp->tfile);
+	//printf("teststet\n");
+	//printf("%p\n", tmp->tfile);
+	
 	del_lst_input(&lst_input);
 	free(all_options);
 	return (0);
+}
+
+char	*verif_filepath(char *path)
+{
+	if (!path)
+		return (NULL);
+	if (path[(int)ft_strlen(path) - 1] == '/')
+		return (ft_strdup(path));
+	else
+		return (ft_strjoin(path, "/"));
 }
 
 int 	browse_dir(char *path, t_lst_file **lst)
@@ -167,120 +170,32 @@ int 	browse_dir(char *path, t_lst_file **lst)
 	return (1);
 }
 
-char *get_permi(char *nbr, mode_t	m)
-{
-	char *ret;
-	char *tmp;
-	int i;
-	int j;
-
-	j = 0;
-	i = 0;
-	ret = ft_strnew(10);
-	
-	ret[i++] = get_filetype(m);
-	tmp = ret + 1;
-	while (i < 10)
+//POUR DELETE MAILLON
+	/*tmp = lst_input;
+	printf("_____________________________________________________\n");
+	while (tmp)
 	{
-		tmp = ft_memmove(tmp, convert_permi(nbr[j++]), 3);
-		i += 3;
-		tmp += 3;
-	}
-	return (ret);
-}
+		lst_file = tmp->tfile;
+		while (tmp->tfile)
+		{
+			printf("=>>> &lst_file:%p, tmp->tfile:%p\n", lst_file, tmp->tfile);
+			if (i % 2){
+				printf("&lst_file:%p, tmp->tfile:%p\n", lst_file, tmp->tfile);
+				del_one(&lst_file, tmp->tfile);
+				print_lst_file(lst_file);
+			}
+			printf("1111111111111111111111....................\n");
+			printf("1- &lst_file:%p, tmp->tfile:%p\n", lst_file, tmp->tfile);
+			i++;
+			tmp->tfile = tmp->tfile->next;
 
-char *convert_permi(char nbr)
-{
-	//printf("HEREE => nbr:%d\n", nbr);
-	if (nbr == '0')
-		return ("---");
-	if (nbr == '1')
-		return ("--x");
-	if (nbr == '2')
-		return ("-w-");
-	if (nbr == '3')
-		return ("-wx");
-	if (nbr == '4')
-		return ("r--");
-	if (nbr == '5')
-		return ("r-x");
-	if (nbr == '6')
-		return ("rw-");
-	if (nbr == '7')
-		return ("rwx");
-	else
-		return (NULL);
-}
+		}
+		printf(".................................\n");
+		printf("2- tmp:%p, tmp->next:%p\n", tmp, tmp->next);
+		tmp = tmp->next;
+	}*/
 
-char 	get_filetype(mode_t	m)
-{
-	if (S_ISLNK(m))
-		return ('l');
-	else if (S_ISREG(m))
-		return ('-');
-	else if (S_ISDIR(m))
-		return ('d');
-	else if (S_ISCHR(m))
-		return ('c');
-	else if (S_ISBLK(m))
-		return ('b');
-	else if (S_ISFIFO(m))
-		return ('p');
-	else if (S_ISSOCK(m))
-		return ('s');
-	else
-		return(0);
-}
 
-int 	file_stat(char *filename, t_lst_file **lst)
-{
-	struct stat s;
-	char *test1;
-	char *error;
-	//
-	t_lst_file *tmp;
-
-	//if (!(filepath = ft_strjoin((tmp_path = verif_filepath(path)), filename)))
-	//	return (-1);
-	//free(tmp_path);
-	printf("filename:%s\n", filename);
-	if (lstat(filename, &s) == -1)
-	{
-		error = ft_strjoin("ft_ls: ", filename);
-		perror(error);
-		free(error);
-		return (0);
-	}
-	else
-	{
-
-		tmp = *lst;
-		tmp = add_lst_file(lst);
-
-		if (!(test1 = ft_itoa_base(s.st_mode, "01234567")))
-			return (0);
-		tmp->permi = get_permi(test1 + (ft_strlen(test1) - 3), s.st_mode);
-		free(test1);
-		tmp->lnk = ft_itoa((int)s.st_nlink);
-		tmp->owner = getpwuid(s.st_uid)->pw_name;
-		tmp->group = getgrgid(s.st_gid)->gr_name;
-		tmp->size = ft_itoa((int)s.st_size);
-		tmp->date = ft_strsub(ctime(&s.st_mtime), 4, 12);
-		tmp->name = ft_strdup(filename);
-	}
-	//free(filepath);
-	return (1);
-}
-
-char	*verif_filepath(char *path)
-{
-	if (!path)
-		return (NULL);
-	if (path[(int)ft_strlen(path) - 1] == '/')
-		return (ft_strdup(path));
-	else
-		return (ft_strjoin(path, "/"));
-}
 
 /*
 ** ALIGNEMENT

@@ -6,7 +6,7 @@
 #    By: jmoucade <jmoucade@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/05 13:11:07 by jmoucade          #+#    #+#              #
-#    Updated: 2016/12/11 00:31:27 by jmoucade         ###   ########.fr        #
+#    Updated: 2016/12/11 23:35:20 by jmoucade         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,8 @@ SRC =	$(SRC_PATH)/ft_ls.c			\
 		$(SRC_PATH)/lst.c			\
 		$(SRC_PATH)/padding.c		\
 		$(SRC_PATH)/padding_utils.c	\
-		$(SRC_PATH)/input.c
+		$(SRC_PATH)/input.c 		\
+		$(SRC_PATH)/filestat.c
 
 
 OSRC = $(SRC:.c=.o)
