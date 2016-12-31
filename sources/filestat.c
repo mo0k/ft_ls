@@ -86,21 +86,19 @@ char	*verif_filepath(char *path)
 		return (ft_strjoin(path, "/"));
 }
 
-int 	file_stat(char *path, char *filename, t_lst_file **lst, t_opts *opts)
+int 	file_stat(char *path, char *filename, t_lst_file **lst)
 {
 	struct stat *s;
 	char *error;
 	char *filepath;
 	char *tmp_path;
 	t_lst_file *tmp;
-	t_sort_func sort_func[2];
 
-	sort_func[0] = &add_lst_ascii;
-	sort_func[1] = &add_lst_time;
 	if (!(s = (struct stat*)malloc(sizeof(struct stat))))
 		return (0);
 	if (!(filepath = ft_strjoin((tmp_path = verif_filepath(path)), filename)))
 		return (-1);
+	//printf("IN FILESTAT filepath:%s\n", filepath);
 	free(tmp_path);
 	if (lstat(filepath, s) == -1)
 	{
@@ -111,15 +109,16 @@ int 	file_stat(char *path, char *filename, t_lst_file **lst, t_opts *opts)
 	}
 	else
 	{
-		free(filepath);
-		if (opts && opts->sort && ft_strchr(opts->sort, 't'))
-		{
-			if (!(tmp = sort_func[1](lst, NULL, s, filename)))
-				return (0);
-			return (1);
-		}
-		if (!(tmp = sort_func[0](lst, NULL, s, filename)))
+		//free(filepath);
+		//if (opts && opts->sort && ft_strchr(opts->sort, 't'))
+		//{
+		//	if (!(tmp = sort_func[1](lst, NULL, s, filename)))
+		//		return (0);
+		//	return (1);
+		//}
+		if (!(tmp = add_lst_ascii(lst, NULL, s, filepath)))
 			return (0);
+		free(filepath);
 		lst = &tmp;
 	}
 	return (1);

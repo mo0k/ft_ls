@@ -18,7 +18,7 @@
 size_t 	is_strlen_max(char *str);
 int 	*array_strlen_max(t_lst_file *lst_file);
 void 	set_padding_long(t_lst_file **lst_file);
-void 	set_padding_normal(t_lst_file **lst_file);
+void 	set_padding_normal(t_lst_file **lst_file, int len_max);
 size_t 	lnk_strlen_max(t_lst_file *lst_file);
 size_t 	owner_strlen_max(t_lst_file *lst_file);
 size_t 	group_strlen_max(t_lst_file *lst_file);

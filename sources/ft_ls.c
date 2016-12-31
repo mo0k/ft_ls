@@ -90,26 +90,41 @@
 
 int		main(int ac, char **av)
 {
-	t_opts *all_options;
-	t_opts *options;
+	//t_opts *all_options;
+	t_options *options;
 	t_lst_all *lst_root;
 	t_lst_all *tmp;
-	t_print_func print_func;
+	t_sort_func sortfunc;
+	t_print_func printfunc;
 
-	all_options = (t_opts*)malloc(sizeof(t_opts));
-	all_options->sort = ft_strdup("tr");
-	all_options->display = ft_strdup("Ral1");
+	//all_options = (t_opts*)malloc(sizeof(t_opts));
+	//all_options->sort = ft_strdup("tucr");
+	//all_options->display = ft_strdup("Ral1");
 	options = NULL;
 	lst_root = NULL;
-	if (!(lst_root = check_input(ac, av, all_options, &options)))
+	//printf("address option:%p\n", options);
+	//printf("START pROG\n");
+	if (!(lst_root = input(ac, av, &options)))
 		return (1);
-	print_func = get_print_func(options);
+	//printf("Listroot ok\n");
+	sortfunc = get_sort_func(options);
+	printfunc = get_print_func(options);
+	//printf("printfunc & sortfunc ok\n");
+	//printfunc(lst_root->t_file);
+	sort(&lst_root->t_dir, options, sortfunc);
+	sort(&lst_root->t_file, options, sortfunc);
+	//printf("sort ok\n\n");
 	tmp = lst_root;
-	print_root_file(lst_root->t_file, options, print_func);
-	if(!(browse_first_node(&tmp->t_dir, options, print_func)))
+	print_root_file(lst_root->t_file, options, printfunc);
+	if (lst_root->t_file && lst_root->t_dir)
+		write(1, "\n", 1);
+	//printf("\nPrint root file ok\n\n");
+	if(!(browse_first_node(&tmp->t_dir, options, printfunc, sortfunc)))
 		return (1);
-	del_options(&all_options);
-	del_options(&options);
+	//return (1);
+	//printf("address option:%p\n", options);
+	//printf("browse_first_node ok\n");
+	free(options);
 	free(lst_root);
 	//while(1){};
 	return (0);

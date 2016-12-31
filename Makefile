@@ -25,9 +25,12 @@ SRC =	$(SRC_PATH)/ft_ls.c			\
 		$(SRC_PATH)/padding.c		\
 		$(SRC_PATH)/padding_utils.c	\
 		$(SRC_PATH)/input.c 		\
+		$(SRC_PATH)/options.c 		\
 		$(SRC_PATH)/filestat.c 		\
 		$(SRC_PATH)/browse.c 		\
 		$(SRC_PATH)/recurs.c 		\
+		$(SRC_PATH)/sort.c 			\
+		$(SRC_PATH)/merge.c 		\
 		$(SRC_PATH)/print.c 
 
 
