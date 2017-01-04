@@ -33,7 +33,6 @@ t_lst_all		*input(int ac, char **av, t_options **opts)
 	if (!lst->t_dir && !lst->t_file)
 		if (!check_typefile(lst, "."))
 			return (NULL);
-	//display_opts(*opts);
 	return (lst);
 }
 
@@ -62,7 +61,6 @@ int				check_input(int ac, char **av, t_lst_all *lst, t_options **opts)
 		}
 		count++;
 	}
-	//free(all_options);
 	return (1);
 }
 
@@ -70,7 +68,7 @@ int				is_options(char const *str)
 {
 	if (!str)
 		return (0);
-	if (*(str++) == '-')
+	if (ft_strlen(str) > 1 && *(str++) == '-')
 		return (1);
 	else
 		return (0);
@@ -102,25 +100,11 @@ int				is_option_valid(char const *str, char *all_options)
 	return (1);
 }
 
-void				display_opts(t_options *opts)
+int 			check_typefile(t_lst_all *lst, char const *str)
 {
-	printf("singlecol:%d\n", opts->singlecol);
-	printf("longform:%d\n", opts->longform);
-	printf("stream:%d\n", opts->stream);
-	printf("accesstime:%d\n", opts->accesstime);
-	printf("statustime:%d\n", opts->statustime);
-	printf("timesort:%d\n", opts->timesort);
-	printf("reversesort:%d\n", opts->reversesort);
-	printf("recursive:%d\n", opts->recursive);
-	printf("allsort:%d\n", opts->allsort);
-}
-
-int 				check_typefile(t_lst_all *lst, char const *str)
-{
-	//printf("str:%s\n", str);
 	struct stat	*s;
 	char 		*error;
-	t_lst_file	*tmp;
+	t_lst_file *tmp;
 
 	if (!(s = (struct stat*)malloc(sizeof(struct stat))))
 		return (0);
@@ -130,8 +114,8 @@ int 				check_typefile(t_lst_all *lst, char const *str)
 		free(error);
 		return (0);
 	}
-	else
-	{
+	//else
+	//{
 		if(S_ISDIR(s->st_mode))
 		{
 			if (!(tmp = add_lst_ascii(&lst->t_dir, NULL, s, (char*)str)))
@@ -142,7 +126,6 @@ int 				check_typefile(t_lst_all *lst, char const *str)
 			if (!(tmp = add_lst_ascii(&lst->t_file, NULL, s, (char*)str)))
 				return (0);
 		}
-	}
+	//}
 	return (1);
 }
-

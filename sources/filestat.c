@@ -12,71 +12,7 @@
 
 #include <ft_ls.h>
 
-char *get_permi(char *nbr, mode_t	m)
-{
-	char *ret;
-	char *tmp;
-	int i;
-	int j;
-
-	j = 0;
-	i = 0;
-	ret = ft_strnew(10);
-	
-	ret[i++] = get_filetype(m);
-	tmp = ret + 1;
-	while (i < 10)
-	{
-		tmp = ft_memmove(tmp, convert_permi(nbr[j++]), 3);
-		i += 3;
-		tmp += 3;
-	}
-	return (ret);
-}
-
-char *convert_permi(char nbr)
-{
-	if (nbr == '0')
-		return ("---");
-	if (nbr == '1')
-		return ("--x");
-	if (nbr == '2')
-		return ("-w-");
-	if (nbr == '3')
-		return ("-wx");
-	if (nbr == '4')
-		return ("r--");
-	if (nbr == '5')
-		return ("r-x");
-	if (nbr == '6')
-		return ("rw-");
-	if (nbr == '7')
-		return ("rwx");
-	else
-		return (NULL);
-}
-
-char 	get_filetype(mode_t	m)
-{
-	if (S_ISLNK(m))
-		return ('l');
-	else if (S_ISREG(m))
-		return ('-');
-	else if (S_ISDIR(m))
-		return ('d');
-	else if (S_ISCHR(m))
-		return ('c');
-	else if (S_ISBLK(m))
-		return ('b');
-	else if (S_ISFIFO(m))
-		return ('p');
-	else if (S_ISSOCK(m))
-		return ('s');
-	else
-		return(0);
-}
-
-char	*verif_filepath(char *path)
+static char		*verif_filepath(char *path)
 {
 	if (!path)
 		return (NULL);
@@ -86,19 +22,18 @@ char	*verif_filepath(char *path)
 		return (ft_strjoin(path, "/"));
 }
 
-int 	file_stat(char *path, char *filename, t_lst_file **lst)
+int				file_stat(char *path, char *filename, t_lst_file **lst)
 {
-	struct stat *s;
-	char *error;
-	char *filepath;
-	char *tmp_path;
-	t_lst_file *tmp;
+	struct stat	*s;
+	char		*error;
+	char		*filepath;
+	char		*tmp_path;
+	t_lst_file	*tmp;
 
 	if (!(s = (struct stat*)malloc(sizeof(struct stat))))
 		return (0);
 	if (!(filepath = ft_strjoin((tmp_path = verif_filepath(path)), filename)))
 		return (-1);
-	//printf("IN FILESTAT filepath:%s\n", filepath);
 	free(tmp_path);
 	if (lstat(filepath, s) == -1)
 	{
@@ -107,19 +42,9 @@ int 	file_stat(char *path, char *filename, t_lst_file **lst)
 		free(error);
 		return (0);
 	}
-	else
-	{
-		//free(filepath);
-		//if (opts && opts->sort && ft_strchr(opts->sort, 't'))
-		//{
-		//	if (!(tmp = sort_func[1](lst, NULL, s, filename)))
-		//		return (0);
-		//	return (1);
-		//}
-		if (!(tmp = add_lst_ascii(lst, NULL, s, filepath)))
-			return (0);
-		free(filepath);
-		lst = &tmp;
-	}
+	if (!(tmp = add_lst_ascii(lst, NULL, s, filepath)))
+		return (0);
+	free(filepath);
+	lst = &tmp;
 	return (1);
 }

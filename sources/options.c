@@ -17,7 +17,8 @@ int		set_options(t_options *options, char const *str)
 	while (*str)
 	{
 		if (!set_flags(options, *str))
-			set_flags_bis(options, *str);
+			if(!set_flags_bis(options, *str))
+				set_flags_bis_bis(options, *str);
 		str++;
 	}
 	return (1);
@@ -77,6 +78,34 @@ int		set_flags_bis(t_options *options, const char c)
 	return (0);
 }
 
+int		set_flags_bis_bis(t_options *options, const char c)
+{
+	if (c == 'n')
+	{
+		options->numericonly = 1;
+		options->longform = 1;
+		return (1);
+	}
+	if (c == 'G')
+	{
+		options->colors = 1;
+		return (1);
+	}
+	if (c == 'o')
+	{
+		options->group = 0;
+		options->longform = 1;
+		return (1);
+	}
+	if (c == 'g')
+	{
+		options->owner = 0;
+		options->longform = 1;
+		return (1);
+	}
+	return(0);
+}
+
 int 	init_options(t_options **opts)
 {
 	if (!*opts)
@@ -91,5 +120,9 @@ int 	init_options(t_options **opts)
 	(*opts)->reversesort = 0;
 	(*opts)->recursive = 0;
 	(*opts)->allsort = 0;
+	(*opts)->numericonly = 0;
+	(*opts)->colors = 0;
+	(*opts)->group = 1;
+	(*opts)->owner = 1;
 	return (1);
 }

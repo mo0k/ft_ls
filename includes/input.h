@@ -13,21 +13,6 @@
 #ifndef INPUT_H
 # define INPUT_H
 
-
-
-typedef struct	s_opts
-{
-	int			singlecol;
-	int			longform;
-	int			stream;
-	int			accesstime;
-	int			statustime;
-	int			timesort;
-	int			reversesort;
-	int			recursive;
-	int 		allsort;
-}				t_options;
-
 #include <ft_ls.h>
 
 t_lst_all		*input(int ac, char **av, t_options **opts);
@@ -37,9 +22,8 @@ int				is_option_valid(char const *str, char *all_options);
 int				set_options(t_options *options, char const *str);
 int				set_flags(t_options *options, const char c);
 int				set_flags_bis(t_options *options, const char c);
+int				set_flags_bis_bis(t_options *options, const char c);
 int 			check_typefile(t_lst_all *lst, const char  *str);
 int 			init_options(t_options **opts);
-//A DELETE
-void			display_opts(t_options *opts);
 
 #endif
