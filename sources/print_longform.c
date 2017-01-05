@@ -80,14 +80,18 @@ void 				print_longform(t_lst_file *f, t_options *opts)
 
 	if (!(ws = (struct winsize*)malloc(sizeof(struct winsize))))
 		return ;
-	ioctl(1, TIOCGWINSZ, ws);
+	if (ioctl(1, TIOCGWINSZ, ws) == -1)
+	{
+		free(ws);
+		return ;
+	}
 	tmp = f;
 	set_padding_long(&tmp);
 	while (tmp)
 	{
 		print_firstpart(tmp, opts);
 		if (opts && opts->colors && ws->ws_col)
-			putstr_color(tmp->custom_name, tmp->s->st_mode);
+			put_color(tmp->custom_name, tmp->s->st_mode);
 		else
 			ft_putstr(tmp->custom_name);
 		print_linkreading(tmp);

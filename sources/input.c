@@ -114,18 +114,15 @@ int 			check_typefile(t_lst_all *lst, char const *str)
 		free(error);
 		return (0);
 	}
-	//else
-	//{
-		if(S_ISDIR(s->st_mode))
-		{
-			if (!(tmp = add_lst_ascii(&lst->t_dir, NULL, s, (char*)str)))
-				return (0);
-		}
-		else
-		{
-			if (!(tmp = add_lst_ascii(&lst->t_file, NULL, s, (char*)str)))
-				return (0);
-		}
-	//}
+	if(S_ISDIR(s->st_mode))
+	{
+		if (!(tmp = add_lst_ascii(&lst->t_dir, NULL, s, (char*)str)))
+			return (0);
+	}
+	else
+	{
+		if (!(tmp = add_lst_ascii(&lst->t_file, NULL, s, (char*)str)))
+			return (0);
+	}
 	return (1);
 }

@@ -24,13 +24,13 @@ static char		*format_time(time_t time)
 
 char			*get_time(t_lst_file *elem, t_options *opts)
 {
-	if (opts && opts->accesstime)// && opts->timesort)
+	if (opts && opts->accesstime)
 	{
 		if (time(NULL) - elem->s->st_atime > 15778800 || elem->s->st_atime - time(NULL) > 3600)
 			return(format_time(elem->s->st_atime));
 		return(ft_strsub(ctime(&elem->s->st_atime), 4, 12));
 	}
-	else if (opts && opts->statustime)// && opts->timesort)
+	else if (opts && opts->statustime)
 	{
 		if (time(NULL) - elem->s->st_ctime > 15778800 || elem->s->st_ctime - time(NULL) > 3600)
 			return(format_time(elem->s->st_ctime));

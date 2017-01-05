@@ -20,25 +20,25 @@ INC_PATH = includes
 
 SRC_PATH = sources
 
-SRC =	$(SRC_PATH)/ft_ls.c			\
-		$(SRC_PATH)/lst.c			\
-		$(SRC_PATH)/lst_utils.c		\
-		$(SRC_PATH)/padding.c		\
-		$(SRC_PATH)/padding_utils.c	\
-		$(SRC_PATH)/input.c 		\
-		$(SRC_PATH)/options.c 		\
-		$(SRC_PATH)/filestat.c 		\
-		$(SRC_PATH)/browse.c 		\
-		$(SRC_PATH)/recurs.c 		\
-		$(SRC_PATH)/sort.c 			\
-		$(SRC_PATH)/merge.c 		\
-		$(SRC_PATH)/printfunc.c 	\
-		$(SRC_PATH)/print_longform.c 	\
-		$(SRC_PATH)/longform.c 		\
-		$(SRC_PATH)/time.c 		\
-		$(SRC_PATH)/colors.c 		\
-		$(SRC_PATH)/print.c 
-
+SRC =	$(SRC_PATH)/ft_ls.c				\
+		$(SRC_PATH)/input.c				\
+		$(SRC_PATH)/options.c			\
+		$(SRC_PATH)/lst.c				\
+		$(SRC_PATH)/lst_utils.c			\
+		$(SRC_PATH)/filestat.c			\
+		$(SRC_PATH)/browse.c 			\
+		$(SRC_PATH)/recurs.c 			\
+		$(SRC_PATH)/time.c				\
+		$(SRC_PATH)/sort.c				\
+		$(SRC_PATH)/merge.c				\
+		$(SRC_PATH)/padding.c			\
+		$(SRC_PATH)/padding_utils.c		\
+		$(SRC_PATH)/print.c				\
+		$(SRC_PATH)/print_stream.c		\
+		$(SRC_PATH)/print_longform.c	\
+		$(SRC_PATH)/print_singleform.c	\
+		$(SRC_PATH)/longform.c			\
+		$(SRC_PATH)/colors.c			\
 
 OSRC = $(SRC:.c=.o)
 

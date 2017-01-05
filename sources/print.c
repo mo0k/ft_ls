@@ -73,3 +73,17 @@ void			print_root_file(t_lst_file *f, t_options *opts, t_print_func print_func)
 		del_lst_file(&f, opts);
 	}
 }
+
+void 			*get_print_func(t_options *options)
+{
+	if (!options)
+		return (NULL);
+	if (options->singlecol)
+		return (&print_singlecol);
+	else if (options->longform)
+		return (&print_longform);
+	else if (options->stream)
+		return (&print_stream);
+	else
+		return (NULL);
+}

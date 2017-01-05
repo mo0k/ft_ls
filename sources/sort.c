@@ -68,7 +68,7 @@ static void		merge_sort(t_lst_file **lst, t_sort_func sortfunc)
 	fixe_prev(*lst, NULL);
 }
 
-void 	sort(t_lst_file **lst, t_options *options, t_sort_func sortfunc)
+void 			sort(t_lst_file **lst, t_options *options, t_sort_func sortfunc)
 {
 	if(!lst || !*lst)
 		return ;

@@ -49,53 +49,6 @@ int				*array_strlen_max(t_lst_file *lst_file)
 	return (ret);
 }
 
-static int		padding_right(char **str, int len_max)
-{
-	int			len;
-	char		*new;
-	char		*tmp;
-
-	if (!*str)
-		return (0);
-	len = (int)ft_strlen(*str);
-	if (len < len_max)
-	{
-		if (!(new = ft_strnew(len_max)))
-			return (-1);
-		new = ft_memset(new, ' ', len_max);
-		tmp = new;
-		new = ft_memrcpy(new + (len_max - len), *str, len);
-		if (*str)
-			free(*str);
-		*str = tmp;
-		return (1);
-	}
-	return (0);
-}
-
-static int		padding_left(char **str, int len_max)
-{
-	int			len;
-	char		*new;
-	char		*tmp;
-
-	if (!*str)
-		return (0);
-	len = (int)ft_strlen(*str);
-	if (len < len_max)
-	{
-		if (!(new = ft_strnew(len_max)))
-			return (-1);
-		new = ft_memset(new, ' ', len_max);
-		tmp = new;
-		new = ft_memrcpy(new, *str, len);
-		if (*str)
-			free(*str);
-		*str = tmp;
-		return (1);
-	}
-	return (0);
-}
 void			set_padding_long(t_lst_file **lst_file)
 {
 	int 		*len_max;
@@ -105,10 +58,10 @@ void			set_padding_long(t_lst_file **lst_file)
 	len_max = array_strlen_max(tmp);
 	while (tmp)
 	{
-		padding_right(&tmp->lnk, len_max[0]);
-		padding_left(&tmp->owner, len_max[1]);
-		padding_left(&tmp->group, len_max[2]);
-		padding_right(&tmp->size, len_max[3]);
+		ft_strpadding_right(&tmp->lnk, len_max[0]);
+		ft_strpadding_left(&tmp->owner, len_max[1]);
+		ft_strpadding_left(&tmp->group, len_max[2]);
+		ft_strpadding_right(&tmp->size, len_max[3]);
 		tmp = tmp->next;
 	}
 	free(len_max);
@@ -117,21 +70,22 @@ void			set_padding_long(t_lst_file **lst_file)
 void			set_padding_normal(t_lst_file **lst_file, int len_max)
 {
 	t_lst_file	*tmp;
-	char		*new;
-	char		**new_tmp;
+	//char		*new;
+	//char		**new_tmp;
 
 	tmp = *lst_file;
 	if(!tmp)
 		return ;
 	while (tmp)
 	{
-		new_tmp = &tmp->custom_name;
+		/*new_tmp = &tmp->custom_name;
 		if (!(new = ft_strnew(len_max)))
 			return ;
 		new = ft_memset(new, ' ', len_max);
 		new = ft_memcpy(new, tmp->custom_name, (int)ft_strlen(tmp->custom_name));
 		free(*new_tmp);
-		*new_tmp = new;
+		*new_tmp = new;*/
+		ft_strpadding_left(&tmp->custom_name, len_max);
 		tmp = tmp->next;
 	}
 }
