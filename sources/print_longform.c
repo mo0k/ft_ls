@@ -80,11 +80,7 @@ void 				print_longform(t_lst_file *f, t_options *opts)
 
 	if (!(ws = (struct winsize*)malloc(sizeof(struct winsize))))
 		return ;
-	if (ioctl(1, TIOCGWINSZ, ws) == -1)
-	{
-		free(ws);
-		return ;
-	}
+	ioctl(1, TIOCGWINSZ, ws);
 	tmp = f;
 	set_padding_long(&tmp);
 	while (tmp)

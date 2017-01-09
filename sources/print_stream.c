@@ -73,14 +73,9 @@ void 				print_stream(t_lst_file *f, t_options *opts)
 
 	(void)opts;
 	len_max = name_strlen_max(f) + 1;
-	set_padding_normal(&f, len_max - 1);
 	if (!(ws = (struct winsize*)malloc(sizeof(struct winsize))))
 		return ;
-	if (ioctl(1, TIOCGWINSZ, ws) == -1)
-	{
-		free(ws);
-		return ;
-	}
+	ioctl(1, TIOCGWINSZ, ws);
 	if (ws->ws_col < len_max)
 	{
 		free(ws);
@@ -88,7 +83,8 @@ void 				print_stream(t_lst_file *f, t_options *opts)
 	}
 	nbr_col = ws->ws_col / len_max;
 	free(ws);
-	if (f)
+	//if (f)
+		set_padding_normal(&f, len_max - 1);
 		finish_stream(f, nbr_col, len_max);
 	return ;
 }
