@@ -12,104 +12,104 @@
 
 #include <input.h>
 
-int		set_options(t_options *options, char const *str)
+int		set_opts(t_opts *opts, char const *str)
 {
 	while (*str)
 	{
-		if (!set_flags(options, *str))
-			if(!set_flags_bis(options, *str))
-				set_flags_bis_bis(options, *str);
+		if (!set_flags(opts, *str))
+			if (!set_flags_bis(opts, *str))
+				set_flags_bis_bis(opts, *str);
 		str++;
 	}
 	return (1);
 }
 
-int		set_flags(t_options *options, const char c)
+int		set_flags(t_opts *opts, const char c)
 {
 	if (c == '1')
 	{
-		options->singlecol = 1;
-		options->longform = 0;
+		opts->singlecol = 1;
+		opts->longform = 0;
 		return (1);
 	}
 	else if (c == 'l')
 	{
-		options->longform = 1;
-		options->singlecol = 0;
+		opts->longform = 1;
+		opts->singlecol = 0;
 		return (1);
 	}
 	else if (c == 'R')
 	{
-		options->recursive = 1;
+		opts->recursive = 1;
 		return (1);
 	}
 	else if (c == 'a')
 	{
-		options->allsort = 1;
+		opts->allsort = 1;
 		return (1);
 	}
 	return (0);
 }
 
-int		set_flags_bis(t_options *options, const char c)
+int		set_flags_bis(t_opts *opts, const char c)
 {
 	if (c == 'c')
 	{
-		options->statustime = 1;
-		options->accesstime = 0;
+		opts->statustime = 1;
+		opts->accesstime = 0;
 		return (1);
 	}
 	else if (c == 'r')
 	{
-		options->reversesort = 1;
+		opts->reversesort = 1;
 		return (1);
 	}
 	else if (c == 't')
 	{
-		options->timesort = 1;
+		opts->timesort = 1;
 		return (1);
 	}
 	else if (c == 'u')
 	{
-		options->accesstime = 1;
-		options->statustime = 0;
+		opts->accesstime = 1;
+		opts->statustime = 0;
 		return (1);
 	}
 	return (0);
 }
 
-int		set_flags_bis_bis(t_options *options, const char c)
+int		set_flags_bis_bis(t_opts *opts, const char c)
 {
 	if (c == 'n')
 	{
-		options->numericonly = 1;
-		options->longform = 1;
+		opts->numericonly = 1;
+		opts->longform = 1;
 		return (1);
 	}
 	if (c == 'G')
 	{
-		options->colors = 1;
+		opts->colors = 1;
 		return (1);
 	}
 	if (c == 'o')
 	{
-		options->group = 0;
-		options->longform = 1;
+		opts->group = 0;
+		opts->longform = 1;
 		return (1);
 	}
 	if (c == 'g')
 	{
-		options->owner = 0;
-		options->longform = 1;
+		opts->owner = 0;
+		opts->longform = 1;
 		return (1);
 	}
-	return(0);
+	return (0);
 }
 
-int 	init_options(t_options **opts)
+int		init_opts(t_opts **opts)
 {
 	if (!*opts)
-		if (!(*opts = (t_options*)malloc(sizeof(t_options))))
+		if (!(*opts = (t_opts*)malloc(sizeof(t_opts))))
 			return (0);
 	(*opts)->singlecol = 0;
 	(*opts)->longform = 0;

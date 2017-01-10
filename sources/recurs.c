@@ -12,28 +12,28 @@
 
 #include <ft_ls.h>
 
-int 			browse_node(t_lst_file **lst, t_options *options, t_print_func printfunc, t_sort_func sortfunc)
+int			browse_node(t_file **lst, t_opts *opts, t_pfunc p, t_sfunc s)
 {
-	t_lst_file	*tmp;
-	int			ret;
-	char		*name;
+	t_file	*tmp;
+	int		ret;
+	char	*name;
 
 	tmp = *lst;
 	while (tmp)
 	{
 		(name = ft_strrchr(tmp->path, '/')) ? name++ : NULL;
-		if(ft_strcmp(name, ".") != 0 && ft_strcmp(name, "..") != 0 &&
+		if (ft_strcmp(name, ".") != 0 && ft_strcmp(name, "..") != 0 &&
 			S_ISDIR(tmp->s->st_mode))
 		{
-			if(!((ret = browse_dir(tmp->path, &tmp->node, options, sortfunc))))
+			if (!((ret = browse_dir(tmp->path, &tmp->node, opts, s))))
 				return (0);
 			if (ret == 1)
 			{
 				print_header_dir(tmp->path);
-				print(tmp->node, printfunc, options);
-				if (options && options->recursive)
-					if (browse_node(&tmp->node, options, printfunc, sortfunc))
-						del_lst_file(&tmp->node, options);
+				print(tmp->node, p, opts);
+				if (opts && opts->recursive)
+					if (browse_node(&tmp->node, opts, p, s))
+						del_lst_file(&tmp->node, opts);
 			}
 		}
 		tmp = tmp->next;

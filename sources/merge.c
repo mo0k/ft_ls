@@ -12,7 +12,7 @@
 
 #include <sort.h>
 
-void			*get_sort_func(t_options *opts)
+void		*get_sfunc(t_opts *opts)
 {
 	if (!opts)
 		return (NULL);
@@ -26,9 +26,9 @@ void			*get_sort_func(t_options *opts)
 		return (NULL);
 }
 
-t_lst_file		*merge_lst_mtime(t_lst_file *l1, t_lst_file *l2)
+t_file		*merge_lst_mtime(t_file *l1, t_file *l2)
 {
-	t_lst_file	*new;
+	t_file	*new;
 
 	new = NULL;
 	if (!l1)
@@ -48,9 +48,9 @@ t_lst_file		*merge_lst_mtime(t_lst_file *l1, t_lst_file *l2)
 	return (new);
 }
 
-t_lst_file		*merge_lst_atime(t_lst_file *l1, t_lst_file *l2)
+t_file		*merge_lst_atime(t_file *l1, t_file *l2)
 {
-	t_lst_file	*new;
+	t_file	*new;
 
 	new = NULL;
 	if (!l1)
@@ -70,9 +70,9 @@ t_lst_file		*merge_lst_atime(t_lst_file *l1, t_lst_file *l2)
 	return (new);
 }
 
-t_lst_file		*merge_lst_ctime(t_lst_file *l1, t_lst_file *l2)
+t_file		*merge_lst_ctime(t_file *l1, t_file *l2)
 {
-	t_lst_file	*new;
+	t_file	*new;
 
 	new = NULL;
 	if (!l1)

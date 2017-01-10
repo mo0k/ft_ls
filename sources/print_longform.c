@@ -12,14 +12,14 @@
 
 #include <print.h>
 
-static void			print_size_or_minmaj(t_lst_file *f)
+static void			print_size_or_minmaj(t_file *f)
 {
 	int				i;
 	int				len_major;
 	int				len_minor;
 
 	if (!S_ISBLK(f->s->st_mode) && !S_ISCHR(f->s->st_mode))
-			ft_putstr(f->size);
+		ft_putstr(f->size);
 	else
 	{
 		i = 0;
@@ -36,7 +36,7 @@ static void			print_size_or_minmaj(t_lst_file *f)
 	}
 }
 
-static void 		print_linkreading(t_lst_file *f)
+static void			print_linkreading(t_file *f)
 {
 	char			buff[256];
 	int				len;
@@ -50,7 +50,7 @@ static void 		print_linkreading(t_lst_file *f)
 	}
 }
 
-static void			print_firstpart(t_lst_file *f, t_options *opts)
+static void			print_firstpart(t_file *f, t_opts *opts)
 {
 	rights_xattr(f->path, f->permi);
 	ft_putstr(f->permi);
@@ -73,10 +73,10 @@ static void			print_firstpart(t_lst_file *f, t_options *opts)
 	write(1, " ", 1);
 }
 
-void 				print_longform(t_lst_file *f, t_options *opts)
+void				print_longform(t_file *f, t_opts *opts)
 {
 	struct winsize	*ws;
-	t_lst_file		*tmp;
+	t_file			*tmp;
 
 	if (!(ws = (struct winsize*)malloc(sizeof(struct winsize))))
 		return ;
@@ -97,10 +97,10 @@ void 				print_longform(t_lst_file *f, t_options *opts)
 	free(ws);
 }
 
-void				print_totalblocks(t_lst_file *lst)
+void				print_totalblocks(t_file *lst)
 {
-	t_lst_file		*current;
-	int 			total_blocks;
+	t_file			*current;
+	int				total_blocks;
 
 	total_blocks = 0;
 	current = lst;

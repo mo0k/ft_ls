@@ -12,39 +12,42 @@
 
 #include <ft_ls.h>
 
-int					browse_first_node(t_lst_file **lst, t_options *options, t_print_func printfunc, t_sort_func sortfunc)
+int				browse_first_node(t_file **lst, t_opts *o, t_pfunc p, t_sfunc s)
 {
-	t_lst_file		*tmp;
-	int				len;
+	t_file		*tmp;
+	int			len;
 
 	len = lstlen_custom(*lst);
 	tmp = *lst;
 	while (tmp)
 	{
-		if(tmp->s->st_mode && S_ISDIR(tmp->s->st_mode))
+		if (tmp->s->st_mode && S_ISDIR(tmp->s->st_mode))
 		{
-			if(!(browse_dir(tmp->path, &tmp->node, options, sortfunc)))
+			if (!(browse_dir(tmp->path, &tmp->node, o, s)))
 				return (0);
-			if (options && options->longform && tmp->node)
-				set_list_to_string(tmp->node, options);
-			print_root_dir(tmp, len, printfunc, options);
-			if (options && options->recursive)
-				if (browse_node(&tmp->node, options, printfunc, sortfunc))
-					del_lst_file(&tmp->node, options);
+			if (o && o->longform && tmp->node)
+				set_list_to_string(tmp->node, o);
+			print_root_dir(tmp, len, p, o);
+			if (o && o->recursive)
+				if (browse_node(&tmp->node, o, p, s))
+					del_lst_file(&tmp->node, o);
 		}
-		del_one(lst, tmp, options);
+		del_one(lst, tmp, o);
 		tmp = tmp->next;
 	}
 	return (1);
 }
 
-static int			browse_dir_error(char *path, t_options *options)
+static int		browse_dir_error(char *path, t_opts *opts)
 {
-	char			*error;
-	char			*name;
+	char		*error;
+	char		*name;
 
-	!(name = ft_strrchr(path, '/')) ? name = path : name++;
-	if (options && options->recursive)
+	if (!(name = ft_strrchr(path, '/')))
+		name = path;
+	else
+		name++;
+	if (opts && opts->recursive)
 	{
 		print_header_dir(path);
 		error = ft_strjoin("ft_ls: ", name);
@@ -58,17 +61,17 @@ static int			browse_dir_error(char *path, t_options *options)
 	return (0);
 }
 
-int 				browse_dir(char *path, t_lst_file **lst, t_options *options, t_sort_func sortfunc)
+int				browse_dir(char *path, t_file **lst, t_opts *opts, t_sfunc s)
 {
-	DIR				*dir;
-	struct dirent	*x;
+	DIR			*dir;
+	t_dirent	*x;
 
 	dir = opendir(path);
 	if (dir == NULL)
-		return (browse_dir_error(path, options)) ? (2) : (0);
+		return (browse_dir_error(path, opts)) ? (2) : (0);
 	while ((x = readdir(dir)))
 	{
-		if (options && options->allsort)
+		if (opts && opts->allsort)
 		{
 			if (!file_stat(path, x->d_name, lst))
 				return (0);
@@ -80,7 +83,7 @@ int 				browse_dir(char *path, t_lst_file **lst, t_options *options, t_sort_func
 					return (0);
 		}
 	}
-	sort(lst, options, sortfunc);
+	sort(lst, opts, s);
 	if (closedir(dir) == -1)
 		return (0);
 	return (1);

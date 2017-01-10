@@ -17,7 +17,7 @@ size_t			is_strlen_max(char *str)
 	static int	len_max = 0;
 	int			new_len;
 
-	if(!str)
+	if (!str)
 		return ((len_max = 0));
 	new_len = (int)ft_strlen(str);
 	if (len_max < new_len)
@@ -25,12 +25,12 @@ size_t			is_strlen_max(char *str)
 	return (len_max);
 }
 
-int				*array_strlen_max(t_lst_file *lst_file)
+int				*array_strlen_max(t_file *lst_file)
 {
 	int			*ret;
 	int			i;
 	int			nbr_elem;
-	t_lst_file	*tmp;
+	t_file		*tmp;
 
 	tmp = lst_file;
 	i = 0;
@@ -49,10 +49,10 @@ int				*array_strlen_max(t_lst_file *lst_file)
 	return (ret);
 }
 
-void			set_padding_long(t_lst_file **lst_file)
+void			set_padding_long(t_file **lst_file)
 {
-	int 		*len_max;
-	t_lst_file	*tmp;
+	int			*len_max;
+	t_file		*tmp;
 
 	tmp = *lst_file;
 	len_max = array_strlen_max(tmp);
@@ -67,24 +67,15 @@ void			set_padding_long(t_lst_file **lst_file)
 	free(len_max);
 }
 
-void			set_padding_normal(t_lst_file **lst_file, int len_max)
+void			set_padding_normal(t_file **lst_file, int len_max)
 {
-	t_lst_file	*tmp;
-	//char		*new;
-	//char		**new_tmp;
+	t_file	*tmp;
 
 	tmp = *lst_file;
-	if(!tmp)
+	if (!tmp)
 		return ;
 	while (tmp)
 	{
-		/*new_tmp = &tmp->custom_name;
-		if (!(new = ft_strnew(len_max)))
-			return ;
-		new = ft_memset(new, ' ', len_max);
-		new = ft_memcpy(new, tmp->custom_name, (int)ft_strlen(tmp->custom_name));
-		free(*new_tmp);
-		*new_tmp = new;*/
 		ft_strpadding_left(&tmp->custom_name, len_max);
 		tmp = tmp->next;
 	}

@@ -12,9 +12,9 @@
 
 #include <sort.h>
 
-static void		fixe_prev(t_lst_file *lst, t_lst_file *prev)
+static void		fixe_prev(t_file *lst, t_file *prev)
 {
-	t_lst_file	*cur;
+	t_file	*cur;
 
 	cur = lst;
 	if (!cur)
@@ -23,10 +23,10 @@ static void		fixe_prev(t_lst_file *lst, t_lst_file *prev)
 	fixe_prev(cur->next, cur);
 }
 
-static void		divise_lst(t_lst_file *source, t_lst_file **dest_1, t_lst_file **dest_2)
+static void		divise_lst(t_file *source, t_file **dest_1, t_file **dest_2)
 {
-	t_lst_file	*t_1;
-	t_lst_file	*t_2;
+	t_file	*t_1;
+	t_file	*t_2;
 
 	if (!source && !source->next)
 	{
@@ -52,28 +52,28 @@ static void		divise_lst(t_lst_file *source, t_lst_file **dest_1, t_lst_file **de
 	}
 }
 
-static void		merge_sort(t_lst_file **lst, t_sort_func sortfunc)
+static void		merge_sort(t_file **lst, t_sfunc sfunc)
 {
-	t_lst_file	*current;
-	t_lst_file	*lst_1;
-	t_lst_file	*lst_2;
+	t_file	*current;
+	t_file	*lst_1;
+	t_file	*lst_2;
 
 	current = *lst;
-	if (!current || !current->next || !sortfunc)
+	if (!current || !current->next || !sfunc)
 		return ;
 	divise_lst(current, &lst_1, &lst_2);
-	merge_sort(&lst_1, sortfunc);
-	merge_sort(&lst_2, sortfunc);
-	*lst = sortfunc(lst_1, lst_2); 
+	merge_sort(&lst_1, sfunc);
+	merge_sort(&lst_2, sfunc);
+	*lst = sfunc(lst_1, lst_2);
 	fixe_prev(*lst, NULL);
 }
 
-void 			sort(t_lst_file **lst, t_options *options, t_sort_func sortfunc)
+void			sort(t_file **lst, t_opts *opts, t_sfunc sfunc)
 {
-	if(!lst || !*lst)
+	if (!lst || !*lst)
 		return ;
-	if (sortfunc)
-		merge_sort(lst, sortfunc);
-	if (options && options->reversesort)
+	if (sfunc)
+		merge_sort(lst, sfunc);
+	if (opts && opts->reversesort)
 		ft_lstrev(lst);
 }

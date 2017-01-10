@@ -12,12 +12,12 @@
 
 #include <lst.h>
 
-static void		set_elem_stat(t_lst_file *elem, struct stat *s, char *filepath)
+static void		set_elem_stat(t_file *elem, struct stat *s, char *filepath)
 {
 	char		*name;
 	static int	state = 0;
 
-	init_lstfile(elem);
+	init_file(elem);
 	(name = ft_strrchr(filepath, '/')) ? name++ : NULL;
 	if (!(elem->s = (struct stat*)malloc(sizeof(struct stat))))
 		return ;
@@ -37,35 +37,35 @@ static void		set_elem_stat(t_lst_file *elem, struct stat *s, char *filepath)
 	free(s);
 }
 
-t_lst_file		*add_lst_ascii(t_lst_file **f, t_lst_file *prev, struct stat *s, char *filepath)
+t_file			*addlst_ascii(t_file **f, t_file *prv, struct stat *s, char *p)
 {
-	t_lst_file	*new;
+	t_file		*new;
 
 	if (!*f)
 	{
-		if (!(new = (t_lst_file*)malloc(sizeof(t_lst_file))))
+		if (!(new = (t_file*)malloc(sizeof(t_file))))
 			return (NULL);
-		set_elem_stat(new, s, filepath);
+		set_elem_stat(new, s, p);
 		new->next = NULL;
-		new->prev = prev;
+		new->prev = prv;
 		*f = new;
 		return (new);
 	}
-	if (ft_strcmp((*f)->path, filepath) > 0)
+	if (ft_strcmp((*f)->path, p) > 0)
 	{
-		if (!(new = (t_lst_file*)malloc(sizeof(t_lst_file))))
+		if (!(new = (t_file*)malloc(sizeof(t_file))))
 			return (NULL);
-		set_elem_stat(new, s, filepath);
+		set_elem_stat(new, s, p);
 		new->next = *f;
 		new->prev = (*f)->prev;
 		(*f)->prev = new;
 		*f = new;
 		return (new);
 	}
-	return (!(new = *f)) ? (NULL) : (add_lst_ascii(&(new)->next, new, s, filepath));
+	return (!(new = *f)) ? (NULL) : (addlst_ascii(&(new)->next, new, s, p));
 }
 
-static void		del_longform(t_lst_file *l)
+static void		del_longform(t_file *l)
 {
 	if (l->permi)
 		free(l->permi);
@@ -81,7 +81,7 @@ static void		del_longform(t_lst_file *l)
 		free(l->group);
 }
 
-void			del_lst_file(t_lst_file **l, t_options *opts)
+void			del_lst_file(t_file **l, t_opts *opts)
 {
 	if (!l || !(*l))
 		return ;
@@ -99,8 +99,7 @@ void			del_lst_file(t_lst_file **l, t_options *opts)
 	*l = NULL;
 }
 
-
-void			del_one(t_lst_file **l, t_lst_file *del, t_options *opts)
+void			del_one(t_file **l, t_file *del, t_opts *opts)
 {
 	if ((*l) && del)
 	{

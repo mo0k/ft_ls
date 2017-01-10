@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print.h                                          :+:      :+:    :+:   */
+/*   print.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmoucade <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -13,21 +13,21 @@
 #ifndef PRINT_H
 # define PRINT_H
 
-#include <ft_ls.h>
-#include <colors.h>
+# include <ft_ls.h>
+# include <colors.h>
 
-void 	print_root_file(t_lst_file *f, t_options *opts, t_print_func print_func);
-void 	print_root_dir(t_lst_file *lst, int len, t_print_func printfunc, t_options *opts);
-void 	print_header_dir(char *pathdir);
-void	print_totalblocks(t_lst_file *lst);
-int 	print(t_lst_file *lst, t_print_func, t_options *opts);
-void 	*get_print_func(t_options *options);
-void 	print_longform(t_lst_file *f, t_options *opts);
-void 	print_singlecol(t_lst_file *f, t_options *opts);
-void 	print_stream(t_lst_file *f, t_options *opts);
-void 	set_list_to_string(t_lst_file *lst, t_options *opts);
-void	set_elem_to_string(t_lst_file *elem, t_options *opts);
-void 	rights_xattr(char *path, char *rights);
-char 	*get_time(t_lst_file *elem, t_options *opts);
+void	print_root_file(t_file *f, t_opts *opts, t_pfunc pfunc);
+void	print_root_dir(t_file *lst, int len, t_pfunc pfunc, t_opts *opts);
+void	print_header_dir(char *pathdir);
+void	print_totalblocks(t_file *lst);
+int		print(t_file *lst, t_pfunc pfunc, t_opts *opts);
+void	*get_pfunc(t_opts *options);
+void	print_longform(t_file *f, t_opts *opts);
+void	print_singlecol(t_file *f, t_opts *opts);
+void	print_stream(t_file *f, t_opts *opts);
+void	set_list_to_string(t_file *lst, t_opts *opts);
+void	set_elem_to_string(t_file *elem, t_opts *opts);
+void	rights_xattr(char *path, char *rights);
+char	*get_time(t_file *elem, t_opts *opts);
 
 #endif

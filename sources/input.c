@@ -12,31 +12,31 @@
 
 #include <input.h>
 
-t_lst_all		*input(int ac, char **av, t_options **opts)
+t_lstall		*input(int ac, char **av, t_opts **opts)
 {
 	int			count;
 	int			state;
-	t_lst_all	*lst;
+	t_lstall	*lst;
 
 	lst = NULL;
 	state = 0;
 	count = 1;
-	if (!(lst = (t_lst_all*)malloc(sizeof(t_lst_all))))
+	if (!(lst = (t_lstall*)malloc(sizeof(t_lstall))))
 		return (NULL);
-	lst->t_file = NULL;
-	lst->t_dir = NULL;
-	init_options(opts);
+	lst->file = NULL;
+	lst->dir = NULL;
+	init_opts(opts);
 	if (!check_input(ac, av, lst, opts))
 		return (NULL);
 	if ((*opts)->singlecol == 0 && (*opts)->longform == 0)
 		(*opts)->stream = 1;
-	if (!lst->t_dir && !lst->t_file)
+	if (!lst->dir && !lst->file)
 		if (!check_typefile(lst, "."))
 			return (NULL);
 	return (lst);
 }
 
-int				check_input(int ac, char **av, t_lst_all *lst, t_options **opts)
+int				check_input(int ac, char **av, t_lstall *lst, t_opts **opts)
 {
 	int			state;
 	int			count;
@@ -47,9 +47,10 @@ int				check_input(int ac, char **av, t_lst_all *lst, t_options **opts)
 	{
 		if (!state && is_options(av[count]))
 		{
-			if (!is_option_valid(av[count], OPTIONS) || !set_options(*opts, av[count]))
+			if (!is_option_valid(av[count], OPTIONS) ||
+				!set_opts(*opts, av[count]))
 			{
-				USAGE
+				usage();
 				return (0);
 			}
 		}
@@ -74,15 +75,15 @@ int				is_options(char const *str)
 		return (0);
 }
 
-int				is_option_valid(char const *str, char *all_options)
+int				is_option_valid(char const *str, char *all_opts)
 {
 	char		*tmp;
-	int 		state;
+	int			state;
 
 	while (*++str)
 	{
 		state = 0;
-		tmp = all_options;
+		tmp = all_opts;
 		while (*tmp)
 		{
 			if (*tmp == *str)
@@ -100,28 +101,29 @@ int				is_option_valid(char const *str, char *all_options)
 	return (1);
 }
 
-int 			check_typefile(t_lst_all *lst, char const *str)
+int				check_typefile(t_lstall *lst, char const *str)
 {
 	struct stat	*s;
-	char 		*error;
-	t_lst_file *tmp;
+	char		*error;
+	t_file		*tmp;
 
 	if (!(s = (struct stat*)malloc(sizeof(struct stat))))
 		return (0);
 	if (lstat(str, s) == -1)
 	{
 		(error = ft_strjoin("ft_ls: ", (char*)str)) ? perror(error) : NULL;
+		free(s);
 		free(error);
 		return (0);
 	}
-	if(S_ISDIR(s->st_mode))
+	if (S_ISDIR(s->st_mode))
 	{
-		if (!(tmp = add_lst_ascii(&lst->t_dir, NULL, s, (char*)str)))
+		if (!(tmp = addlst_ascii(&lst->dir, NULL, s, (char*)str)))
 			return (0);
 	}
 	else
 	{
-		if (!(tmp = add_lst_ascii(&lst->t_file, NULL, s, (char*)str)))
+		if (!(tmp = addlst_ascii(&lst->file, NULL, s, (char*)str)))
 			return (0);
 	}
 	return (1);

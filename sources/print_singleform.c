@@ -12,10 +12,10 @@
 
 #include <print.h>
 
-void 				print_singlecol(t_lst_file *f, t_options *opts)
+void				print_singlecol(t_file *f, t_opts *opts)
 {
 	struct winsize	*ws;
-	t_lst_file		*tmp;
+	t_file			*tmp;
 
 	if (!(ws = (struct winsize*)malloc(sizeof(struct winsize))))
 		return ;

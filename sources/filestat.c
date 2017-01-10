@@ -22,27 +22,29 @@ static char		*verif_filepath(char *path)
 		return (ft_strjoin(path, "/"));
 }
 
-int				file_stat(char *path, char *filename, t_lst_file **lst)
+int				file_stat(char *path, char *filename, t_file **lst)
 {
 	struct stat	*s;
 	char		*error;
 	char		*filepath;
 	char		*tmp_path;
-	t_lst_file	*tmp;
+	t_file		*tmp;
 
 	if (!(s = (struct stat*)malloc(sizeof(struct stat))))
 		return (0);
-	if (!(filepath = ft_strjoin((tmp_path = verif_filepath(path)), filename)))
+	tmp_path = verif_filepath(path);
+	if (!(filepath = ft_strjoin(tmp_path, filename)))
 		return (-1);
 	free(tmp_path);
 	if (lstat(filepath, s) == -1)
 	{
-		error = ft_strjoin("ft_ls: ", filename);
-		perror(error);
+		(error = ft_strjoin("ft_ls: ", filename)) ? perror(error) : NULL;
 		free(error);
-		return (0);
+		free(filepath);
+		free(s);
+		return (1);
 	}
-	if (!(tmp = add_lst_ascii(lst, NULL, s, filepath)))
+	if (!(tmp = addlst_ascii(lst, NULL, s, filepath)))
 		return (0);
 	free(filepath);
 	lst = &tmp;

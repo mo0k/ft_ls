@@ -1,4 +1,3 @@
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -13,7 +12,7 @@
 
 #include <lst.h>
 
-void			init_lstfile(t_lst_file *elem)
+void			init_file(t_file *elem)
 {
 	elem->name = NULL;
 	elem->custom_name = NULL;
@@ -26,17 +25,17 @@ void			init_lstfile(t_lst_file *elem)
 	elem->state = 0;
 }
 
-void 			ft_lstrev(t_lst_file **f)
+void			ft_lstrev(t_file **f)
 {
-	t_lst_file	*current;
-	t_lst_file	*tmp;
-	t_lst_file	*end;
+	t_file		*current;
+	t_file		*tmp;
+	t_file		*end;
 
 	end = *f;
 	current = *f;
 	while (current)
 	{
-		if(!current->next)
+		if (!current->next)
 			end = current;
 		tmp = current->next;
 		current->next = current->prev;
@@ -46,10 +45,10 @@ void 			ft_lstrev(t_lst_file **f)
 	*f = end;
 }
 
-int				lstlen_custom(t_lst_file *lst)
+int				lstlen_custom(t_file *lst)
 {
 	int			ret;
-	t_lst_file	*begin;
+	t_file		*begin;
 
 	ret = 0;
 	begin = lst;
@@ -63,10 +62,10 @@ int				lstlen_custom(t_lst_file *lst)
 	return (ret);
 }
 
-int				lstlen(t_lst_file *lst)
+int				lstlen(t_file *lst)
 {
 	int			ret;
-	t_lst_file	*begin;
+	t_file		*begin;
 
 	ret = 0;
 	begin = lst;

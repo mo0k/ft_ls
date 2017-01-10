@@ -12,7 +12,7 @@
 
 #include <print.h>
 
-static char		get_filetype(mode_t	m)
+static char		get_filetype(mode_t m)
 {
 	if (S_ISLNK(m))
 		return ('l');
@@ -29,10 +29,10 @@ static char		get_filetype(mode_t	m)
 	else if (S_ISSOCK(m))
 		return ('s');
 	else
-		return(0);
+		return (0);
 }
 
-static char		*get_permi(mode_t	m)
+static char		*get_permi(mode_t m)
 {
 	char		*ret;
 
@@ -73,10 +73,11 @@ void			rights_xattr(char *path, char *rights)
 			rights[10] = '+';
 		else
 			rights[10] = ' ';
+		free(acl);
 	}
 }
 
-void			set_elem_to_string(t_lst_file *elem, t_options *opts)
+void			set_elem_to_string(t_file *elem, t_opts *opts)
 {
 	if (!elem)
 		return ;
@@ -94,9 +95,9 @@ void			set_elem_to_string(t_lst_file *elem, t_options *opts)
 	elem->date = get_time(elem, opts);
 }
 
-void			set_list_to_string(t_lst_file *lst, t_options *opts)
+void			set_list_to_string(t_file *lst, t_opts *opts)
 {
-	t_lst_file	*node;
+	t_file	*node;
 
 	node = lst;
 	while (node)

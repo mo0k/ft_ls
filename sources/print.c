@@ -12,22 +12,23 @@
 
 #include <ft_ls.h>
 
-int				print(t_lst_file *lst, t_print_func print_func, t_options *opts)
+int				print(t_file *lst, t_pfunc pfunc, t_opts *opts)
 {
-	t_lst_file	*current;
+	t_file	*current;
 
 	current = lst;
 	if (opts && opts->longform && current)
 		set_list_to_string(current, opts);
 	if (opts && opts->longform && lstlen_custom(current))
 		print_totalblocks(current);
-	print_func(current, opts);
+	pfunc(current, opts);
 	return (1);
 }
 
 void			print_header_dir(char *pathdir)
 {
 	static int	state = 0;
+
 	if (state)
 		write(1, "\n", 1);
 	if (pathdir)
@@ -38,30 +39,30 @@ void			print_header_dir(char *pathdir)
 	state = 1;
 }
 
-void			print_root_dir(t_lst_file *lst, int len, t_print_func print_func, t_options *opts)
+void			print_root_dir(t_file *lst, int len, t_pfunc p, t_opts *opts)
 {
-	t_lst_file	*node;
+	t_file		*node;
 
 	node = lst->node;
 	if (len == 1 && !lst->state)
 	{
 		print_header_dir(NULL);
-		if (print_func == &print_longform && lstlen_custom(node))
+		if (p == &print_longform && lstlen_custom(node))
 			print_totalblocks(node);
-		print_func(node, opts);
+		p(node, opts);
 	}
 	else
 	{
 		print_header_dir(lst->path);
-		if (print_func == &print_longform)
+		if (p == &print_longform)
 			print_totalblocks(node);
-		print_func(node, opts);
+		p(node, opts);
 	}
 }
 
-void			print_root_file(t_lst_file *f, t_options *opts, t_print_func print_func)
+void			print_root_file(t_file *f, t_opts *opts, t_pfunc pfunc)
 {
-	t_lst_file	*current;
+	t_file	*current;
 
 	current = f;
 	if (opts && opts->longform && current)
@@ -69,20 +70,20 @@ void			print_root_file(t_lst_file *f, t_options *opts, t_print_func print_func)
 	current = f;
 	if (f)
 	{
-		print_func(current, opts);
+		pfunc(current, opts);
 		del_lst_file(&f, opts);
 	}
 }
 
-void 			*get_print_func(t_options *options)
+void			*get_pfunc(t_opts *opts)
 {
-	if (!options)
+	if (!opts)
 		return (NULL);
-	if (options->singlecol)
+	if (opts->singlecol)
 		return (&print_singlecol);
-	else if (options->longform)
+	else if (opts->longform)
 		return (&print_longform);
-	else if (options->stream)
+	else if (opts->stream)
 		return (&print_stream);
 	else
 		return (NULL);

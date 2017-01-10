@@ -13,14 +13,14 @@
 #ifndef LST_H
 # define LST_H
 
-#include <ft_ls.h>
+# include <ft_ls.h>
 
-t_lst_file		*add_lst_ascii(t_lst_file **f, t_lst_file *prev, struct stat *s, char *name);
-void			del_lst_file(t_lst_file **f, t_options *opts);
-void			del_one(t_lst_file **l, t_lst_file *del, t_options *opts);
-void 			ft_lstrev(t_lst_file **f);
-int				lstlen(t_lst_file *lst);
-int				lstlen_custom(t_lst_file *lst);
-void 			init_lstfile(t_lst_file *elem);
+t_file	*addlst_ascii(t_file **f, t_file *prev, struct stat *s, char *path);
+void	del_lst_file(t_file **f, t_opts *opts);
+void	del_one(t_file **l, t_file *del, t_opts *opts);
+void	ft_lstrev(t_file **f);
+int		lstlen(t_file *lst);
+int		lstlen_custom(t_file *lst);
+void	init_file(t_file *elem);
 
 #endif

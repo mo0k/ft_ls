@@ -13,7 +13,7 @@
 #include <ft_ls.h>
 #include <padding.h>
 
-size_t			lnk_strlen_max(t_lst_file *lst_file)
+size_t			lnk_strlen_max(t_file *lst_file)
 {
 	size_t		len_max;
 
@@ -27,10 +27,10 @@ size_t			lnk_strlen_max(t_lst_file *lst_file)
 	return (len_max);
 }
 
-size_t			owner_strlen_max(t_lst_file *lst_file)
+size_t			owner_strlen_max(t_file *lst_file)
 {
 	size_t		len_max;
-	
+
 	len_max = 0;
 	while (lst_file)
 	{
@@ -41,7 +41,7 @@ size_t			owner_strlen_max(t_lst_file *lst_file)
 	return (len_max);
 }
 
-size_t			group_strlen_max(t_lst_file *lst_file)
+size_t			group_strlen_max(t_file *lst_file)
 {
 	size_t		len_max;
 
@@ -55,7 +55,7 @@ size_t			group_strlen_max(t_lst_file *lst_file)
 	return (len_max);
 }
 
-size_t			size_strlen_max(t_lst_file *lst_file)
+size_t			size_strlen_max(t_file *lst_file)
 {
 	size_t		len_max;
 
@@ -69,7 +69,7 @@ size_t			size_strlen_max(t_lst_file *lst_file)
 	return (len_max);
 }
 
-size_t			name_strlen_max(t_lst_file *lst_file)
+size_t			name_strlen_max(t_file *lst_file)
 {
 	size_t		len_max;
 

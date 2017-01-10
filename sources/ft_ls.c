@@ -12,30 +12,36 @@
 
 #include <ft_ls.h>
 
-int					main(int ac, char **av)
+int				main(int ac, char **av)
 {
-	t_options		*options;
-	t_lst_all		*lst_root;
-	t_lst_all		*tmp;
-	t_sort_func		sortfunc;
-	t_print_func	printfunc;
+	t_opts		*opts;
+	t_lstall	*lst_root;
+	t_lstall	*tmp;
+	t_sfunc		sfunc;
+	t_pfunc		pfunc;
 
-	options = NULL;
+	opts = NULL;
 	lst_root = NULL;
-	if (!(lst_root = input(ac, av, &options)))
+	if (!(lst_root = input(ac, av, &opts)))
 		return (1);
-	sortfunc = get_sort_func(options);
-	printfunc = get_print_func(options);
-	sort(&lst_root->t_dir, options, sortfunc);
-	sort(&lst_root->t_file, options, sortfunc);
+	sfunc = get_sfunc(opts);
+	pfunc = get_pfunc(opts);
+	sort(&lst_root->dir, opts, sfunc);
+	sort(&lst_root->file, opts, sfunc);
 	tmp = lst_root;
-	print_root_file(lst_root->t_file, options, printfunc);
-	if (lst_root->t_file && lst_root->t_dir)
+	print_root_file(lst_root->file, opts, pfunc);
+	if (lst_root->file && lst_root->dir)
 		write(1, "\n", 1);
-	if(!(browse_first_node(&tmp->t_dir, options, printfunc, sortfunc)))
+	if (!(browse_first_node(&tmp->dir, opts, pfunc, sfunc)))
 		return (1);
-	free(options);
+	free(opts);
 	free(lst_root);
-	//while(1){};
 	return (0);
+}
+
+void			usage(void)
+{
+	ft_putstr("usage: ./ft_ls [");
+	ft_putstr(OPTIONS);
+	ft_putstr("] [file ...]\n");
 }

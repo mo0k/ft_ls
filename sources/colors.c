@@ -16,7 +16,7 @@ static void		put_background(mode_t m)
 {
 	if (m & S_IXUSR && m & S_ISUID)
 		ft_putstr(B_RED);
-	else if ((m & S_IXGRP &&  m & S_ISGID) || S_ISBLK(m))
+	else if ((m & S_IXGRP && m & S_ISGID) || S_ISBLK(m))
 		ft_putstr(B_CYAN);
 	else if (S_ISCHR(m) || (m & S_IWOTH && !(m & S_ISVTX) && S_ISDIR(m)))
 		ft_putstr(B_YELLOW);
@@ -26,7 +26,7 @@ static void		put_background(mode_t m)
 
 static void		put_foreground(mode_t m)
 {
-	if ((m & S_IXUSR && m & S_ISUID) || (m & S_IXGRP &&  m & S_ISGID) ||
+	if ((m & S_IXUSR && m & S_ISUID) || (m & S_IXGRP && m & S_ISGID) ||
 		(S_ISDIR(m) && m & S_IWOTH))
 		ft_putstr(T_BLACK);
 	else if (S_ISDIR(m))
@@ -43,17 +43,17 @@ static void		put_foreground(mode_t m)
 		ft_putstr(T_RED);
 }
 
-void		put_color(char *str, mode_t m)
+void			put_color(char *str, mode_t m)
 {
-	int		foreground;
-	int		background;
+	int			foreground;
+	int			background;
 
 	foreground = 0;
 	background = 0;
 	if (S_ISLNK(m) || S_ISDIR(m) || S_ISCHR(m) || S_ISBLK(m) || S_ISFIFO(m) ||
 		m & S_IXUSR || m & S_IXGRP || m & S_IXOTH || m & S_IWOTH)
 		foreground = 1;
-	if ((m & S_IXUSR && m & S_ISUID) || (m & S_IXGRP &&  m & S_ISGID) ||
+	if ((m & S_IXUSR && m & S_ISUID) || (m & S_IXGRP && m & S_ISGID) ||
 		(m & S_IXOTH && m & S_ISVTX) || S_ISCHR(m) || S_ISBLK(m) ||
 		(m & S_IWOTH))
 		background = 1;
